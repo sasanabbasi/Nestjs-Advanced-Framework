@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+  node:
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: DockerFile
+    env_file:
+      - ./app/.env
+    volumes:
+      - './app:/usr/app/core'
+      - '/usr/app/core/node_modules'
+    expose:
+      - '3000'
+    ports:
+      - '3200:3000'
+    command: pm2-runtime start "npm i && npm run start:debug" --name bittestan
+  mongo:
+    image: 'mongo'
+    expose:
+      - 27017
+    volumes:
+      - './db-data:/data'
+      - './db-data/db:/data/db'
+volumes:
+  letsencrypt:

@@ -1,0 +1,7 @@
+FROM node:14
+ENV TZ=Asia/Tehran
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+WORKDIR /usr/app/core
+COPY app .
+RUN npm install --save
+RUN npm install nodemon winston hook async pm2 -g
